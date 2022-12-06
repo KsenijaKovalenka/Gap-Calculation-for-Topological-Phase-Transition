@@ -1,0 +1,26 @@
+!----------------------
+! mandatory
+!----------------------
+PREFIX   = BiTeI
+
+NKX      = 10
+NKY      = 10
+NKZ      = 10
+
+NVALENCE      = 12
+NCONDUCTION   = 13
+
+NPARTITIONS   = 10
+!----------------------
+! optional
+!----------------------
+KX_ORIGIN= 0.0166667
+KY_ORIGIN= 0.0166667
+KZ_ORIGIN= 0.5D0  ! interested at around A point
+
+KX_HBOX= 0.1D0
+KY_HBOX= 0.1D0
+KZ_HBOX= 0.1D0
+
+!PLOT_VELOC= .FALSE.
+!PLOT_MAGNET= .FALSE.

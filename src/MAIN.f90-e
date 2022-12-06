@@ -1,0 +1,16 @@
+    program diracfinder
+!        _ _                 __ _           _
+!     __| (_)_ __ __ _  ___ / _(_)_ __   __| | ___ _ __
+!    / _` | | ‘__/ _` |/ __| |_| | ‘_ \ / _` |/ _ \ ‘__|
+!   | (_| | | | | (_| | (__|  _| | | | | (_| |  __/ |
+!    \__,_|_|_|  \__,_|\___|_| |_|_| |_|\__,_|\___|_|
+
+    use constants, only : twopi
+    use parameters 
+    implicit NONE
+    call init_mpi(ierr)
+    call init_param
+    call construct_hamiltonian
+    call export_data
+    call mpi_finalise(ierr)
+    end program diracfinder

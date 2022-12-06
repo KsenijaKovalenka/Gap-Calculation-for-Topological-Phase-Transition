@@ -1,0 +1,24 @@
+!----------------------
+! mandatory
+!----------------------
+PREFIX   = BiTeI
+
+NKX      = 10
+NKY      = 10
+NKZ      = 10
+
+NVALENCE      = 12
+NCONDUCTION   = 13
+
+NPARTITIONS   = 10
+!----------------------
+! optional
+!----------------------
+K1_ORIGIN= 0.0166667
+K2_ORIGIN= 0.0166667
+K3_ORIGIN= 0.5D0  ! interested at around A point
+
+KX_HBOX= 0.1D0
+KY_HBOX= 0.1D0
+KZ_HBOX= 0.1D0
+
