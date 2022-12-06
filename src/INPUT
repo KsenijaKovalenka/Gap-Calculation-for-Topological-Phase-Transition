@@ -14,9 +14,9 @@ NPARTITIONS   = 10
 !----------------------
 ! optional
 !----------------------
-KX_ORIGIN= 0.0166667
-KY_ORIGIN= 0.0166667
-KZ_ORIGIN= 0.5D0  ! interested at around A point
+K1_ORIGIN= 0.0166667
+K2_ORIGIN= 0.0166667
+K3_ORIGIN= 0.5D0  ! interested at around A point
 
 KX_HBOX= 0.1D0
 KY_HBOX= 0.1D0

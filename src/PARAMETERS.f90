@@ -129,9 +129,8 @@
         TOKEN='K1_ORIGIN'
         CALL GETPARAM(TOKEN,VALUE,IIN)
         IF(LEN_TRIM(VALUE).NE.0) THEN
+         
            READ(VALUE,*,ERR=159) K1_ORIGIN
-           K1_ORIGIN=K1_ORIGIN*TWOPI
-	
         ELSE
            K1_ORIGIN=0D0
         ENDIF
@@ -139,9 +138,8 @@
         TOKEN='K2_ORIGIN'
         CALL GETPARAM(TOKEN,VALUE,IIN)
         IF(LEN_TRIM(VALUE).NE.0) THEN
+
            READ(VALUE,*,ERR=160) K2_ORIGIN
-           K2_ORIGIN=K2_ORIGIN*TWOPI
-	
         ELSE
            K2_ORIGIN=0D0
         ENDIF
@@ -149,9 +147,8 @@
         TOKEN='K3_ORIGIN'
         CALL GETPARAM(TOKEN,VALUE,IIN)
         IF(LEN_TRIM(VALUE).NE.0) THEN
+
            READ(VALUE,*,ERR=161) K3_ORIGIN
-           K3_ORIGIN=K3_ORIGIN*TWOPI
-	
         ELSE
            K3_ORIGIN=0D0
         ENDIF

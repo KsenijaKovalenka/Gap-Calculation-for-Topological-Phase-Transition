@@ -71,21 +71,25 @@
       
 !---------defining k point which previously gave the minimum energy in carthesian co-ords     
 
-      KX_ORIGIN = K1_ORIGIN * BVEC(1,1) + K2_ORIGIN * BVEC (1,2) + K3_ORIGIN * BVEC (1,3)
-      KY_ORIGIN = K1_ORIGIN * BVEC(2,1) + K2_ORIGIN * BVEC (2,2) + K3_ORIGIN * BVEC (2,3)
-      KZ_ORIGIN = K1_ORIGIN * BVEC(3,1) + K2_ORIGIN * BVEC (3,2) + K3_ORIGIN * BVEC (3,3)
-             
+      KX_ORIGIN = K1_ORIGIN * BVEC(1,1) + K2_ORIGIN * BVEC(1,2) + K3_ORIGIN * BVEC(1,3)
+      KY_ORIGIN = K1_ORIGIN * BVEC(2,1) + K2_ORIGIN * BVEC(2,2) + K3_ORIGIN * BVEC(2,3)
+      KZ_ORIGIN = K1_ORIGIN * BVEC(3,1) + K2_ORIGIN * BVEC(3,2) + K3_ORIGIN * BVEC(3,3)
+      print*, K1_ORIGIN
+      print*, KX_HBOX
+      print*, BVEC(1,1)
           
 !  generate a uniform 3D k-mesh
       ALLOCATE(KLIST(3,NKPT))
+      open(777,file='kmesh.dat')
       K=0
       DO IKX=-NKX,NKX
        DO IKY=-NKY,NKY
         DO IKZ=-NKZ,NKZ
          K=K+1
-         klist(1,K) = (float(ikx)/float(nkx))*KX_HBOX + K1_ORIGIN
-         klist(2,K) = (float(iky)/float(nky))*KY_HBOX + K2_ORIGIN
-         klist(3,K) = (float(ikz)/float(nkz))*KZ_HBOX + K3_ORIGIN
+         klist(1,K) = (float(ikx)/float(nkx))*KX_HBOX + KX_ORIGIN
+         klist(2,K) = (float(iky)/float(nky))*KY_HBOX + KY_ORIGIN
+         klist(3,K) = (float(ikz)/float(nkz))*KZ_HBOX + KZ_ORIGIN
+         write(777, '(3(x,f12.8))') klist(1,K), klist(2,K), klist(3,K)
         ENDDO
        ENDDO
       ENDDO 
