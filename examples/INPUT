@@ -3,14 +3,14 @@
 !----------------------
 PREFIX   = BiTeI
 
-NKX      = 10
-NKY      = 10
+NKX      = 15
+NKY      = 15
 NKZ      = 10
 
 NVALENCE      = 12
 NCONDUCTION   = 13
 
-NPARTITIONS   = 10
+NPARTITIONS   = 100
 !----------------------
 ! optional
 !----------------------

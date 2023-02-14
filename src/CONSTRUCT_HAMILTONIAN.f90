@@ -3,11 +3,11 @@
       USE PARAMETERS         ,          ONLY:  IERR,MYID,NUMPROCS,               & !for mpi
                                              IUH_TRIVIAL,IUH_TOPOLOGICAL,INNKP,  & !file indicies
                                              PREFIX,NBAND,NRPTS,NDEG,            & !basic stuff
-                                             NKX,NKY,NKZ,NKPT,                   & !bounds for kmesh
-                                             NPARTITIONS,NCONDUCTION,NVALENCE,   &
+                                             NKX,NKY,NKZ,NKPT,KLIST,             & !bounds for kmesh
+                                             NPARTITIONS,NCONDUCTION,NVALENCE,   & !partitions and bands 
                                              KX_HBOX,KY_HBOX,KZ_HBOX,            & !kmesh
                                              K1_ORIGIN,K2_ORIGIN,K3_ORIGIN,      & !initial k-point in lattice basis
-                                             AVEC, BVEC, RVEC, GAP, TIMING         !basis + rvector array
+                                             AVEC, BVEC, RVEC, GAP, TIMING, GAPLOC         !basis + rvector array
                                              
                                              
       IMPLICIT NONE
@@ -24,7 +24,7 @@
       INTEGER*4 lwork,lrwork,info
       COMPLEX*16,ALLOCATABLE:: work(:),Hk_triv(:,:),Hk_top(:,:),Hk(:,:), &
       Hr_triv(:,:,:),Hr_top(:,:,:),Hr_alpha(:,:)
-      real*8,allocatable:: ENE(:,:), EIGEN(:,:), klist(:,:), PTIMING(:)
+      real*8,allocatable:: ENE(:,:), EIGEN(:,:), PTIMING(:)
       !  timing
       REAL*8 TENDK, TSTARTK,TPROC(0:NUMPROCS-1)
 
@@ -74,12 +74,10 @@
       KX_ORIGIN = K1_ORIGIN * BVEC(1,1) + K2_ORIGIN * BVEC(1,2) + K3_ORIGIN * BVEC(1,3)
       KY_ORIGIN = K1_ORIGIN * BVEC(2,1) + K2_ORIGIN * BVEC(2,2) + K3_ORIGIN * BVEC(2,3)
       KZ_ORIGIN = K1_ORIGIN * BVEC(3,1) + K2_ORIGIN * BVEC(3,2) + K3_ORIGIN * BVEC(3,3)
-      print*, K1_ORIGIN
-      print*, KX_HBOX
-      print*, BVEC(1,1)
           
 !  generate a uniform 3D k-mesh
       ALLOCATE(KLIST(3,NKPT))
+      ALLOCATE(GAPLOC(NPARTITIONS))
       open(777,file='kmesh.dat')
       K=0
       DO IKX=-NKX,NKX
@@ -149,7 +147,8 @@
     do ipart=1,npartitions
       TIMING=0D0
       TSTARTK=MPI_WTIME()
-      alpha=(float(ipart-1)/float(npartitions-1)*0.15d0) + 0.7d0 !offset and scaling for closer interval
+      alpha=float(ipart-1)/float(npartitions-1)
+      !alpha=(float(ipart-1)/float(npartitions-1)*0.15d0) + 0.7d0 !offset and scaling for closer interval
           EIGEN=0D0
           !ENE=0d0 ?
           IK=0
@@ -179,6 +178,7 @@
 
                       
           GAP(IPART) = MINVAL(EIGEN(NCONDUCTION,:)) - MAXVAL(EIGEN(NVALENCE,:))
+          GAPLOC(IPART) = minloc(EIGEN(NCONDUCTION,:),dim=1)
           !EF(IPART) = (MINVAL(EIGEN(13,:)) + MAXVAL(EIGEN(12,:)))/2D0
 
           CALL MPI_REDUCE(TPROC,TIMING,NUMPROCS,MPI_DOUBLE_PRECISION,MPI_SUM, &
@@ -189,7 +189,7 @@
     TIMING = SUM(PTIMING)
 
     IF(MYID.NE.0) DEALLOCATE(EIGEN)
-    DEALLOCATE(klist,Hr_triv,Hr_top,Hr_alpha,Hk_triv,Hk_top,Hk,RVEC) !ndeg?
+    DEALLOCATE(Hr_triv,Hr_top,Hr_alpha,Hk_triv,Hk_top,Hk,RVEC) !ndeg, gaploc, klist, gap? 
     DEALLOCATE(work,rwork,ENE)
     RETURN    
     

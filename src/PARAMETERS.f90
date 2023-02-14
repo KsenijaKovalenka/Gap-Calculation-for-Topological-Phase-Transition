@@ -22,8 +22,9 @@
 !   prefix of the wannier outputs
 	CHARACTER(LEN=100)PREFIX
 !   work arrays
-        REAL(8),ALLOCATABLE::EIGEN(:,:),VELOC(:,:),MAGNET(:,:,:),GAP(:),TIMING(:)
-        INTEGER,ALLOCATABLE:: IKMAP(:,:,:)
+        REAL(8),ALLOCATABLE::EIGEN(:,:),VELOC(:,:),MAGNET(:,:,:),GAP(:),TIMING(:), &
+        KLIST(:,:)
+        INTEGER,ALLOCATABLE:: IKMAP(:,:,:),GAPLOC(:)
 !   control keys for plotting velocity and magnetization
         LOGICAL PLOT_VELOC, PLOT_MAGNET
 	END MODULE PARAMETERS
@@ -39,7 +40,7 @@
                                                  NVALENCE,NCONDUCTION,NPARTITIONS,   &
                                                  KX_HBOX,KY_HBOX,KZ_HBOX,            &
                                                  K1_ORIGIN,K2_ORIGIN,K3_ORIGIN,      &
-                                                 EIGEN,IKMAP,PLOT_VELOC,PLOT_MAGNET
+                                                 EIGEN,IKMAP
         IMPLICIT NONE
         INCLUDE 'mpif.h'
         CHARACTER(LEN=100)LINE,POSLINE,NNKPLINE
@@ -129,7 +130,7 @@
         TOKEN='K1_ORIGIN'
         CALL GETPARAM(TOKEN,VALUE,IIN)
         IF(LEN_TRIM(VALUE).NE.0) THEN
-         
+
            READ(VALUE,*,ERR=159) K1_ORIGIN
         ELSE
            K1_ORIGIN=0D0

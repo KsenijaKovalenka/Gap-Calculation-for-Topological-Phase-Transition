@@ -1,5 +1,4 @@
     program diracfinder
-    use constants, only : twopi
     USE PARAMETERS       ,    ONLY: IERR,MYID,NUMPROCS,TIMING
     use parameters 
     implicit NONE
